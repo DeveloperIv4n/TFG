@@ -18,7 +18,7 @@ async function sendMessage(message) {
 
   // Envía el mensaje al modelo de Hugging Face
   const response = await fetch(
-    "https://api-inference.huggingface.co/models/facebook/blenderbot-400M-distill",
+    "https://api-inference.huggingface.co/models/facebook/blenderbot-3B",
     {
       headers: { Authorization: "Bearer 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" },
       method: "POST",
