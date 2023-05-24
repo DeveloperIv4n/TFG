@@ -15,28 +15,22 @@ async function sendMessage(message) {
   // Añadir el div contenedor al contenedor del chat
   chatContainer.appendChild(userDiv);
 
+  // Envía el mensaje a tu API
+  const url = `https://tfg-ia-ivan.vercel.app/generate-response/${encodeURIComponent(message)}`; //  la dirección de tu API
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ question: message })
+  });
 
-  // Envía el mensaje al modelo de Hugging Face
-  const response = await fetch(
-    "https://api-inference.huggingface.co/models/facebook/blenderbot-3B",
-    {
-      headers: { Authorization: "Bearer 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" },
-      method: "POST",
-      body: JSON.stringify({
-        inputs: {
-          past_user_inputs: ["Which movie is the best ?"],
-          generated_responses: ["It's Die Hard for sure."],
-          text: message,
-        },
-      }),
-    }
-  );
-  const result = await response.json();
+  const data = await response.json();
 
-  // Agrega la respuesta del modelo al chat
+  // Agrega la respuesta al chat
   const botMessage = document.createElement("div");
   botMessage.classList.add("message", "bot-message");
-  botMessage.innerText = result.generated_text;
+  botMessage.innerText = data.response;
   chatContainer.appendChild(botMessage);
 }
 
