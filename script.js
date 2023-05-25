@@ -16,7 +16,7 @@
     chatContainer.appendChild(userDiv);
 
     // Envía el mensaje a tu API
-    const url = `https://e440-35-196-98-28.ngrok-free.app/generate-response/${encodeURIComponent(message)}`; //  la dirección de tu API
+    const url = `https://6384-35-229-32-77.ngrok-free.app/generate-response/${encodeURIComponent(message)}`; //  la dirección de tu API
     const response = await fetch(url, {
       method: 'POST',
       headers: {
