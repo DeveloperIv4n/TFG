@@ -6,7 +6,7 @@ import torch
 
 def train(chatData, model, optim):
 
-    epochs = 12
+    epochs = 30
 
     for i in tqdm.tqdm(range(epochs)):
         for X, a in chatData:
@@ -16,10 +16,13 @@ def train(chatData, model, optim):
             loss = model(X, attention_mask=a, labels=X).loss
             loss.backward()
             optim.step()
-        torch.save(model.state_dict(), "model_state.pt")
-        print(infer("I'm feeling really overwhelmed with work and school. I don't know how to manage my time and it's causing me a lot of stress."))
-        print(infer("I'm having trouble with my procrastination, what can I do to be more productive?"))
-        print(infer("I'm having trouble making decisions and I'm constantly second-guessing myself. What should I do?"))
+        torch.save(model.state_dict(), "/content/drive/MyDrive/IA/model_state/model_state2.pt")
+        model.config.save_pretrained("/content/drive/MyDrive/IA/model_config/")
+        tokenizer.save_pretrained("/content/drive/MyDrive/IA/tokenizer_info/")
+        print(infer("I've been feeling really anxious lately, and I don't know why."))
+        print(infer("Give three tips for staying healthy."))
+        print(infer("Write a short story in third person narration about a protagonist who has to make an important career decision."))
+        print(infer("I feel so lonely in my life i dont have anyone to talk."))
 
 
 def infer(inp):
@@ -47,12 +50,12 @@ model = model.to(device)
 # print(tokenizer.decode(model.generate(**tokenizer("hey i was good at basketball but ",
 #                          return_tensors="pt"))[0]))
 
-chatData = ChatData("/content/psychology.json", tokenizer)
-chatData =  DataLoader(chatData, batch_size=64)
+chatData = ChatData("/content/drive/MyDrive/IA/FullDB1.json", tokenizer)
+chatData =  DataLoader(chatData, batch_size=256)
 
 model.train()
 
-optim = Adam(model.parameters(), lr=1e-4)
+optim = Adam(model.parameters(), lr=1e-5)
 
 print("training .... ")
 train(chatData, model, optim)
